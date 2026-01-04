@@ -39,6 +39,8 @@ Entrez une note a rechercher : 14
 Nombre d'etudiants ayant la note 14.0 : 1
 ```
 
+**Capture d'écran :** `ex1/screenshot.png`
+
 **Points d'amélioration :**
 - Vérifier `n > 0` et gérer les entrées invalides (`InputMismatchException`).
 - Pour la comparaison de réels, utiliser une tolérance `epsilon` si nécessaire.
@@ -69,6 +71,8 @@ nous parlons
 vous parlez
 ils/elles parlent
 ```
+
+**Capture d'écran :** `ex2/screenshot.png`
 
 **Points d'amélioration :**
 - Vérifier la longueur minimale du verbe (>=3 caractères).
@@ -101,6 +105,8 @@ Votre choix : 4
 Nombre de mots : 3
 ```
 
+**Capture d'écran :** `ex3/screenshot.png`
+
 **Points d'amélioration :**
 - Gérer la chaîne vide et afficher des messages clairs.
 - Séparer la logique menu et la logique traitement dans des méthodes pour faciliter les tests.
@@ -132,6 +138,8 @@ Occurrences des lettres :
 1 occurrence(s) de la lettre 'R'
 1 occurrence(s) de la lettre 'D'
 ```
+
+**Capture d'écran :** `ex4/screenshot.png`
 
 **Points d'amélioration :**
 - Gérer les caractères accentués si nécessaire (normalisation Unicode).
@@ -167,7 +175,3 @@ Ce TP couvre des concepts essentiels de Java : saisie utilisateur (`Scanner`), t
 
 ---
 
-Si vous le souhaitez, je peux aussi :
-- ajouter des tests JUnit, 
-- créer un script d'exécution automatisé (PowerShell), 
-- committer et pousser les modifications dans votre dépôt Git. 
