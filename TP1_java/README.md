@@ -41,7 +41,7 @@ Nombre d'etudiants ayant la note 14.0 : 1
 
 **Capture d'écran :**
 
-![Capture Ex 1](./ex1/Sc-ex-1.svg)
+![Capture Ex 1](./ex1/Sc-ex-1.png)
 
 **Points d'amélioration :**
 - Vérifier `n > 0` et gérer les entrées invalides (`InputMismatchException`).
@@ -76,7 +76,7 @@ ils/elles parlent
 
 **Capture d'écran :**
 
-![Capture Ex 2](./ex2/Sc-ex-2.svg)
+![Capture Ex 2](./ex2/Sc-ex-2.png)
 
 **Points d'amélioration :**
 - Vérifier la longueur minimale du verbe (>=3 caractères).
@@ -111,7 +111,7 @@ Nombre de mots : 3
 
 **Capture d'écran :**
 
-![Capture Ex 3](./ex3/Sc-ex-3.svg)
+![Capture Ex 3](./ex3/Sc-ex-3.png)
 
 **Points d'amélioration :**
 - Gérer la chaîne vide et afficher des messages clairs.
@@ -147,7 +147,7 @@ Occurrences des lettres :
 
 **Capture d'écran :**
 
-![Capture Ex 4](./ex4/Sc-ex-4.svg)
+![Capture Ex 4](./ex4/Sc-ex-4.png)
 
 **Points d'amélioration :**
 - Gérer les caractères accentués si nécessaire (normalisation Unicode).
