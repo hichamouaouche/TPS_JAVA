@@ -39,7 +39,9 @@ Entrez une note a rechercher : 14
 Nombre d'etudiants ayant la note 14.0 : 1
 ```
 
-**Capture d'écran :** `ex1/Sc-ex-1.png`
+**Capture d'écran :**
+
+![Capture Ex 1](./ex1/Sc-ex-1.svg)
 
 **Points d'amélioration :**
 - Vérifier `n > 0` et gérer les entrées invalides (`InputMismatchException`).
@@ -72,7 +74,9 @@ vous parlez
 ils/elles parlent
 ```
 
-**Capture d'écran :** `ex2/Sc-ex-2.png`
+**Capture d'écran :**
+
+![Capture Ex 2](./ex2/Sc-ex-2.svg)
 
 **Points d'amélioration :**
 - Vérifier la longueur minimale du verbe (>=3 caractères).
@@ -105,7 +109,9 @@ Votre choix : 4
 Nombre de mots : 3
 ```
 
-**Capture d'écran :** `ex3/Sc-ex-3.png`
+**Capture d'écran :**
+
+![Capture Ex 3](./ex3/Sc-ex-3.svg)
 
 **Points d'amélioration :**
 - Gérer la chaîne vide et afficher des messages clairs.
@@ -139,7 +145,9 @@ Occurrences des lettres :
 1 occurrence(s) de la lettre 'D'
 ```
 
-**Capture d'écran :** `ex4/Sc-ex-4.png`
+**Capture d'écran :**
+
+![Capture Ex 4](./ex4/Sc-ex-4.svg)
 
 **Points d'amélioration :**
 - Gérer les caractères accentués si nécessaire (normalisation Unicode).
