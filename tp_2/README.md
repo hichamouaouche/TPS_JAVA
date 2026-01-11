@@ -168,13 +168,4 @@ java Application
 
 - Pour automatiser les tests de l'app interactive `ApplicationProduit`, vous pouvez rediriger un fichier d'entrée (`java ApplicationProduit < inputs.txt`) contenant les choix séquentiels pour simuler un utilisateur.
 
-- Si vous voulez, je peux :
-  1) Générer automatiquement des captures d'écran d'exécution (si vous me fournissez la sortie ou autorisez un runner local),
-  2) Ajouter des badges ou une section "Tests" avec exemples d'inputs/outputs,
-  3) Réorganiser (ajouter des packages) pour permettre compilation globale sans conflits.
 
----
-
-Si vous voulez que j'insère directement les images dans le README (avec balises Markdown) à partir des fichiers présents (`./Generic/partie_1/1.png`, etc.), dites-le et je les ajoute. ✅
-
-Bon travail — dites-moi si vous voulez que j'ajoute les images intégrées dans ce README ou que je crée une version en anglais. 🎯
