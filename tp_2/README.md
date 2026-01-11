@@ -50,6 +50,8 @@ javac *.java
 java Application
 ```
 
+**Prérequis** : Java JDK 11 ou supérieur. Vérifiez que `javac` est disponible dans votre PATH et que `JAVA_HOME` est correctement configuré.
+
 ---
 
 ## Détails par script (description, usage, sortie attendue, capture d'écran) 📋
@@ -98,9 +100,7 @@ java Application
 
 ![Résultat Generic/partie_2](./Generic/partie_2/2.png)
 
-> ⚠️ Note : Pour des tests automatisés, lancer l'app et choisir "1" pour afficher la table, ou "2" puis un ID existant (1..30) pour vérifier la recherche.
-
-> ⚠️ Note : Pour des tests automatisés, lancer l'app et choisir "1" pour afficher la table, ou "2" puis un ID existant (1..30) pour vérifier la recherche.
+> ⚠️ Note : Pour des tests automatisés, lancer l'app et choisir "1" pour afficher la table, ou "2" puis un ID existant (1..30) pour vérifier la recherche. **Prérequis** : Java JDK 11 ou supérieur.
 
 ---
 
@@ -159,5 +159,10 @@ java Application
 ![Résultat Set](./Set/set_sc.png)
 
 ---
+
+## Conclusion ✅
+
+Ce dépôt rassemble des exemples pédagogiques couvrant les génériques (`GenericStorage`), les collections (`List`, `Map`, `Set`) et un mini-CRUD produit. Les exemples sont prêts à être compilés et exécutés par dossier et permettent d'illustrer les opérations courantes (ajout, suppression, recherche, statistiques).
+
 
 
