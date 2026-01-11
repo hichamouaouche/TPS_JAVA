@@ -9,26 +9,26 @@
   - **partie_1/**
     - `GenericStorage.java` — Classe générique de stockage (List)
     - `Application.java` — Démo d'utilisation de `GenericStorage` (Integer, String)
-    - `1.png` — Capture d'écran d'exécution (si fournie)
+    - `1.png` — Capture d'écran d'exécution (chemin : `./Generic/partie_1/1.png`)
   - **partie_2/**
     - `IMetier.java` — Interface générique (add, getAll, findById, delete)
     - `Product.java` — POJO produit (id, name, brand, price, ...)
     - `MetierProduitImpl.java` — Implémentation de `IMetier` pour `Product`
     - `ApplicationProduit.java` — Application interactive de gestion de produits
-    - `2.png` — Capture d'écran d'exécution (si fournie)
+    - `2.png` — Capture d'écran d'exécution (chemin : `./Generic/partie_2/2.png`)
 
 - **Liste/**
   - `Product.java` — POJO simple (id, name, price)
   - `ProductManagementApp.java` — Exemple d'utilisation d'`ArrayList` (add, remove, modify, search)
-  - `liste_sc.png` — Capture d'écran d'exécution (si fournie)
+  - `liste_sc.png` — Capture d'écran d'exécution (chemin : `./Liste/liste_sc.png`) 
 
 - **Mps/**
   - `GestionNotes.java` — Utilisation de `Map` pour gérer des notes (insert, update, delete, stats)
-  - `mps-sc.png` — Capture d'écran d'exécution (si fournie)
+  - `mps-sc.png` — Capture d'écran d'exécution (chemin : `./Mps/mps-sc.png`) 
 
 - **Set/**
   - `StudentGroups.java` — Démonstration de `Set` (union, intersection)
-  - `set_sc.png` — Capture d'écran d'exécution (si fournie)
+  - `set_sc.png` — Capture d'écran d'exécution (chemin : `./Set/set_sc.png`) 
 
 ---
 
@@ -67,8 +67,10 @@ java Application
   - "Element index 1: 20"
   - "--- Test String ---"
   - "Element index 2: Python"
-- **Capture d'écran**: `./Generic/partie_1/1.png` (./Generic/partie_1/1.png)
 
+- **Capture d'écran** :
+
+![Résultat Generic/partie_1](./Generic/partie_1/1.png)
 
 > 💡 Remarque: `GenericStorage` inclut des méthodes: addElement, removeElement, getElement, getSize.
 
@@ -91,7 +93,12 @@ java Application
   - "Chargement des données de test..."
   - "30 produits ajoutés avec succès !"
   - Menu interactif et affichage tabulaire (ID, NOM, MARQUE, PRIX, STOCK)
-- **Capture d'écran**: `./Generic/partie_2/2.png`
+
+- **Capture d'écran** :
+
+![Résultat Generic/partie_2](./Generic/partie_2/2.png)
+
+> ⚠️ Note : Pour des tests automatisés, lancer l'app et choisir "1" pour afficher la table, ou "2" puis un ID existant (1..30) pour vérifier la recherche.
 
 > ⚠️ Note : Pour des tests automatisés, lancer l'app et choisir "1" pour afficher la table, ou "2" puis un ID existant (1..30) pour vérifier la recherche.
 
@@ -110,7 +117,10 @@ java Application
   - Après suppression d'un élément, nouvelle liste
   - Après modification du prix, nouvelle liste
   - Résultat de la recherche ("Produit trouvé : ..." ou "Aucun produit trouvé ...")
-- **Capture d'écran**: `./Liste/liste_sc.png`
+
+- **Capture d'écran** :
+
+![Résultat Liste](./Liste/liste_sc.png)
 
 ---
 
@@ -124,7 +134,10 @@ java Application
 - **Entrées**: Aucune (opérations pré-codées)
 - **Sortie attendue (extrait)**:
   - Insertion des notes, mises à jour (Ahmed, Karim), suppression (Sarah), affichage de la moyenne, max, min
-- **Capture d'écran**: `./Mps/mps-sc.png`
+
+- **Capture d'écran** :
+
+![Résultat Mps](./Mps/mps-sc.png) 
 
 ---
 
@@ -140,7 +153,10 @@ java Application
   - Affichage des deux groupes
   - Intersection (étudiants présents dans les deux groupes)
   - Union (tous les étudiants sans doublons)
-- **Capture d'écran**: `./Set/set_sc.png`
+
+- **Capture d'écran** :
+
+![Résultat Set](./Set/set_sc.png)
 
 ---
 
