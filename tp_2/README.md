@@ -67,7 +67,8 @@ java Application
   - "Element index 1: 20"
   - "--- Test String ---"
   - "Element index 2: Python"
-- **Capture d'écran**: `./Generic/partie_1/1.png` (insérez votre capture ici si besoin)
+- **Capture d'écran**: `./Generic/partie_1/1.png` (./Generic/partie_1/1.png)
+
 
 > 💡 Remarque: `GenericStorage` inclut des méthodes: addElement, removeElement, getElement, getSize.
 
