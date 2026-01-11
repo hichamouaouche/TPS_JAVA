@@ -160,12 +160,4 @@ java Application
 
 ---
 
-## Remarques générales et suggestions d'amélioration 🛠️
-- Il y a deux classes `Product` dans le projet (`Generic/partie_2/Product.java` et `Liste/Product.java`). Si vous compilez tout depuis la racine, il peut y avoir des conflits de noms de classes. Solutions :
-  - Compiler/exécuter par dossier (recommandé pour ce TP) ;
-  - Ajouter des `package` différents pour chaque module et adapter les imports ;
-  - Renommer une des classes si vous souhaitez compiler tout ensemble.
-
-- Pour automatiser les tests de l'app interactive `ApplicationProduit`, vous pouvez rediriger un fichier d'entrée (`java ApplicationProduit < inputs.txt`) contenant les choix séquentiels pour simuler un utilisateur.
-
 
