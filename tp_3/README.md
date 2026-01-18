@@ -416,20 +416,3 @@ Product [ID=3, Name=Keyboard, Brand=Corsair, Price=79.99, Stock=15]
 ✓ Interface-based design patterns
 
 ---
-
-## Project Statistics
-
-| Category | Count |
-|----------|-------|
-| Total Classes | 8 |
-| Total Methods | 20+ |
-| Lines of Code | 500+ |
-| Exercises | 4 |
-| Screenshots | 4 |
-
----
-
-**Author:** Java TP3 Student  
-**Date:** 2024  
-**Language:** Java  
-**JDK Version:** Java 8+
