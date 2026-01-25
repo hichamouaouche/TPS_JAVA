@@ -1,10 +1,10 @@
 # TP_4: Java Multithreading & Network Programming
 
-Ce document contient une description détaillée de tous les exercices du TP_4, couvrant les concepts de multithreading, synchronisation des threads, programmation réseau (TCP/IP et UDP).
+This document contains a detailed description of all exercises in TP_4, covering concepts of multithreading, thread synchronization, network programming (TCP/IP and UDP).
 
 ---
 
-## Table des Matières
+## Table of Contents
 1. [Sc_1: Bank Simulation (Race Condition & Synchronization)](#sc_1-bank-simulation)
 2. [Sc_2: Unsafe Bus Reservation (Race Condition)](#sc_2-unsafe-bus-reservation)
 3. [Sc_3: Game Server & Client (TCP/IP)](#sc_3-game-server--client)
@@ -14,65 +14,65 @@ Ce document contient une description détaillée de tous les exercices du TP_4, 
 
 ## Sc_1: Bank Simulation
 
-### 📋 Description Générale
-Cet exercice démontre le problème de **race condition** dans un environnement multithreading et comment le résoudre avec la synchronisation.
+### 📋 General Description
+This exercise demonstrates the problem of **race condition** in a multithreading environment and how to solve it with synchronization.
 
-### 🎯 Objectifs
-- Comprendre les **race conditions** en Java
-- Apprendre à utiliser `synchronized` pour protéger les sections critiques
-- Voir comment la synchronisation empêche les incohérences de données
+### 🎯 Objectives
+- Understand **race conditions** in Java
+- Learn to use `synchronized` to protect critical sections
+- See how synchronization prevents data inconsistencies
 
-### 📂 Fichiers
+### 📂 Files
 - `Sc_1/BankSimulation.java`
 
-### 📝 Code Détaillé
+### 📝 Detailed Code
 
-#### Classe `BankAccount`
+#### Class `BankAccount`
 ```java
-private int balance;  // Solde du compte - ressource partagée
+private int balance;  // Account balance - shared resource
 
-// Méthode SYNCHRONISÉE pour protéger l'accès concurrent
+// SYNCHRONIZED method to protect concurrent access
 public synchronized void withdraw(int amount, String clientName)
 ```
-- **Problème sans `synchronized`**: Deux clients peuvent vérifier le solde simultanément, voir qu'il suffit, puis les deux retirer sans être conscients l'un de l'autre
-- **Solution avec `synchronized`**: Seul un thread à la fois peut exécuter cette méthode
+- **Problem without `synchronized`**: Two clients can check the balance simultaneously, see that it's sufficient, then both withdraw without being aware of each other
+- **Solution with `synchronized`**: Only one thread at a time can execute this method
 
-#### Classe `Client` (extends `Thread`)
-- Chaque client est un thread indépendant
-- Appelle `withdraw()` sur le compte partagé
+#### Class `Client` (extends `Thread`)
+- Each client is an independent thread
+- Calls `withdraw()` on the shared account
 
-#### Méthode `main()`
+#### Method `main()`
 ```
-BankAccount initiale = 500
-Client 1: retire 450
-Client 2: retire 100
+Initial BankAccount = 500
+Client 1: withdraw 450
+Client 2: withdraw 100
 ```
 
-### 🔴 Scenario sans Synchronization (Race Condition)
+### 🔴 Scenario without Synchronization (Race Condition)
 ```
-TEMPS    CLIENT 1                          CLIENT 2
-T0       Vérifier solde = 500 ✓            -
-T1       -                                  Vérifier solde = 500 ✓
-T2       Retirer 450, balance = 50         -
-T3       -                                  Retirer 100, balance = 400 ❌ INCORRECT!
+TIME     CLIENT 1                          CLIENT 2
+T0       Check balance = 500 ✓             -
+T1       -                                  Check balance = 500 ✓
+T2       Withdraw 450, balance = 50        -
+T3       -                                  Withdraw 100, balance = 400 ❌ INCORRECT!
 ```
-**Résultat attendu**: 500 - 450 - 100 = -50 (impossible) ou solde invalide
-**Résultat obtenu**: Incohérence
+**Expected result**: 500 - 450 - 100 = -50 (impossible) or invalid balance
+**Actual result**: Inconsistency
 
-### 🟢 Scenario avec Synchronization
+### 🟢 Scenario with Synchronization
 ```
-TEMPS    CLIENT 1                          CLIENT 2
+TIME     CLIENT 1                          CLIENT 2
 T0       [LOCK]                            -
-T1       Vérifier solde = 500 ✓            [ATTENTE]
-T2       Retirer 450, balance = 50         [ATTENTE]
+T1       Check balance = 500 ✓             [WAITING]
+T2       Withdraw 450, balance = 50        [WAITING]
 T3       [UNLOCK]                          [LOCK]
-T4       -                                  Vérifier solde = 50 ✗
-T5       -                                  Rejet (pas assez de fonds)
+T4       -                                  Check balance = 50 ✗
+T5       -                                  Rejection (insufficient funds)
 T6       -                                  [UNLOCK]
 ```
-**Résultat**: Solde cohérent = 50
+**Result**: Consistent balance = 50
 
-### 🚀 Comment Exécuter
+### 🚀 How to Execute
 
 #### Compilation
 ```bash
@@ -80,12 +80,12 @@ cd Sc_1
 javac BankSimulation.java
 ```
 
-#### Exécution
+#### Execution
 ```bash
 java BankSimulation
 ```
 
-### 📊 Sortie Attendue
+### 📊 Expected Output
 ```
 Client 1 is attempting to withdraw 450
 Client 1 sees sufficient funds. Proceeding...
@@ -94,88 +94,88 @@ Client 2 is attempting to withdraw 100
 Client 2 denied. Insufficient funds. Balance: 50
 ```
 
-### 📸 Capture d'écran - Sc_1
+### 📸 Screenshot - Sc_1
 ![Sc_1 Bank Simulation Output](./Sc_1/Sc_1.png)
 
-### 🎓 Concepts Clés Appris
-- **Race Condition**: Quand plusieurs threads accèdent à une ressource partagée sans synchronisation
-- **Critical Section**: Code qui accède à des données partagées
-- **Lock/Mutex**: Mécanisme pour assurer l'accès exclusif
-- **`synchronized` Keyword**: Protège une méthode ou bloc de code
+### 🎓 Key Concepts Learned
+- **Race Condition**: When multiple threads access a shared resource without synchronization
+- **Critical Section**: Code that accesses shared data
+- **Lock/Mutex**: Mechanism to ensure exclusive access
+- **`synchronized` Keyword**: Protects a method or block of code
 
 ---
 
 ## Sc_2: Unsafe Bus Reservation
 
-### 📋 Description Générale
-Cet exercice montre comment une **race condition** peut causer une surréservation de places dans un système de réservation de bus.
+### 📋 General Description
+This exercise shows how a **race condition** can cause overbooking of seats in a bus reservation system.
 
-### 🎯 Objectifs
-- Identifier les problèmes de concurrence dans les systèmes critiques
-- Comprendre l'importance de la synchronisation pour les opérations commerciales
-- Voir les conséquences réelles d'une mauvaise synchronisation
+### 🎯 Objectives
+- Identify concurrency issues in critical systems
+- Understand the importance of synchronization for business operations
+- See the real consequences of poor synchronization
 
-### 📂 Fichiers
+### 📂 Files
 - `Sc_2/UnsafeBusReservation.java`
 
-### 📝 Code Détaillé
+### 📝 Detailed Code
 
-#### Classe `Bus`
+#### Class `Bus`
 ```java
-private int availableSeats;  // Nombre de places disponibles
+private int availableSeats;  // Number of available seats
 
-// SANS synchronization - cause la race condition
+// WITHOUT synchronization - causes race condition
 public void bookSeats(int seatsRequested, String passengerName)
 ```
-- **Problème**: La méthode n'est pas `synchronized`
-- **Thread.sleep(100)**: Simule un délai de traitement pour forcer la race condition
+- **Problem**: The method is not `synchronized`
+- **Thread.sleep(100)**: Simulates processing delay to force the race condition
 
-#### Classe `Passenger` (extends `Thread`)
-- Représente un passager qui réserve des places
-- Chaque passager est un thread
+#### Class `Passenger` (extends `Thread`)
+- Represents a passenger reserving seats
+- Each passenger is a thread
 
-#### Scenario dans `main()`
+#### Scenario in `main()`
 ```
-Bus total = 3 places
-Passager 1: veut 2 places
-Passager 2: veut 2 places
-Total demandé: 4 places (> capacité!)
+Bus total = 3 seats
+Passenger 1: wants 2 seats
+Passenger 2: wants 2 seats
+Total requested: 4 seats (> capacity!)
 ```
 
-### 🔴 Scenario du Bug (Race Condition)
+### 🔴 Bug Scenario (Race Condition)
 
 ```
-TEMPS    PASSAGER 1                        PASSAGER 2
-T0       Vérifier: 3 places >= 2 ✓        -
-T1       (Thread.sleep)                    Vérifier: 3 places >= 2 ✓
+TIME     PASSENGER 1                       PASSENGER 2
+T0       Check: 3 seats >= 2 ✓            -
+T1       (Thread.sleep)                    Check: 3 seats >= 2 ✓
 T2       -                                  (Thread.sleep)
-T3       Réserver 2, places = 1            -
-T4       -                                  Réserver 2, places = -1 ❌ BUG!
+T3       Book 2, seats = 1                 -
+T4       -                                  Book 2, seats = -1 ❌ BUG!
 ```
 
-### 📊 Sortie Attendue (Avec le Bug)
+### 📊 Expected Output (With Bug)
 ```
-Passager 1 entered.
+Passenger 1 entered.
 Available seats: 3
-Passager 2 entered.
+Passenger 2 entered.
 Available seats: 3
-Passager 1 booked 2 seats.
-Seats left after Passager 1: 1
-Passager 2 booked 2 seats.
-Seats left after Passager 2: -1
+Passenger 1 booked 2 seats.
+Seats left after Passenger 1: 1
+Passenger 2 booked 2 seats.
+Seats left after Passenger 2: -1
 ```
 
-**Problème**: Le bus a maintenant **-1 places** - situation impossible!
+**Problem**: The bus now has **-1 seats** - impossible situation!
 
-### 🔧 Comment Corriger
-Ajouter `synchronized` à la méthode:
+### 🔧 How to Fix
+Add `synchronized` to the method:
 ```java
 public synchronized void bookSeats(int seatsRequested, String passengerName) {
     // ... code ...
 }
 ```
 
-### 🚀 Comment Exécuter
+### 🚀 How to Execute
 
 #### Compilation
 ```bash
@@ -183,83 +183,83 @@ cd Sc_2
 javac UnsafeBusReservation.java
 ```
 
-#### Exécution
+#### Execution
 ```bash
 java UnsafeBusReservation
 ```
 
-### 📸 Capture d'écran - Sc_2
+### 📸 Screenshot - Sc_2
 ![Sc_2 Bus Reservation Output](./Sc_2/Sc_2.png)
 
-### 🎓 Concepts Clés Appris
-- **Data Race**: Accès non-synchronisé à des données partagées
-- **Overselling**: Vendre plus que la capacité disponible
-- **Atomicity**: Importance que les opérations complètes ne soient pas interrompues
-- **Critical Section Protection**: Nécessité de protéger les opérations atomiques
+### 🎓 Key Concepts Learned
+- **Data Race**: Unsynchronized access to shared data
+- **Overselling**: Selling more than available capacity
+- **Atomicity**: Importance of complete operations not being interrupted
+- **Critical Section Protection**: Need to protect atomic operations
 
 ---
 
 ## Sc_3: Game Server & Client
 
-### 📋 Description Générale
-Cet exercice implémente un jeu du **nombre magique** avec architecture **client-serveur** utilisant TCP/IP (sockets).
+### 📋 General Description
+This exercise implements a **magic number guessing game** with **client-server architecture** using TCP/IP (sockets).
 
-### 🎯 Objectifs
-- Apprendre la communication réseau TCP/IP en Java
-- Implémenter un serveur qui accepte une seule connexion
-- Implémenter un serveur multithreading pour plusieurs clients simultanés
-- Créer un système de leaderboard thread-safe
-- Comprendre la programmation client-serveur
+### 🎯 Objectives
+- Learn TCP/IP network communication in Java
+- Implement a server accepting a single connection
+- Implement a multithreading server for multiple simultaneous clients
+- Create a thread-safe leaderboard system
+- Understand client-server programming
 
-### 📂 Fichiers
-- `Sc_3/SimpleServer.java` - Serveur simple (un seul client)
-- `Sc_3/MultiThreadedServer.java` - Serveur pour plusieurs clients + leaderboard
-- `Sc_3/GameClient.java` - Client pour jouer au jeu
+### 📂 Files
+- `Sc_3/SimpleServer.java` - Simple server (single client)
+- `Sc_3/MultiThreadedServer.java` - Multi-client server + leaderboard
+- `Sc_3/GameClient.java` - Client to play the game
 
 ---
 
-### 📝 SimpleServer - Serveur Simple
+### 📝 SimpleServer - Simple Server
 
 #### Description
-Serveur TCP qui accepte **un seul client** et joue au jeu du nombre magique.
+TCP server that accepts **a single client** and plays the magic number guessing game.
 
-#### Fonctionnement
-1. Génère un nombre aléatoire entre 0 et 100
-2. Écoute sur le port **1234**
-3. Accepte une connexion client
-4. Boucle: reçoit les estimations et envoie des indices
-5. Termine quand le client trouve le nombre
+#### Operation
+1. Generates a random number between 0 and 100
+2. Listens on port **1234**
+3. Accepts a client connection
+4. Loop: receives guesses and sends hints
+5. Terminates when the client finds the number
 
-#### Code Clés
+#### Key Code
 ```java
 ServerSocket serverSocket = new ServerSocket(port);
-Socket socket = serverSocket.accept();  // Bloque jusqu'à une connexion
+Socket socket = serverSocket.accept();  // Blocks until connection
 BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
 ```
 
-#### Indices Envoyés
-- `"TOO_LOW"` - Le nombre est plus grand
-- `"TOO_HIGH"` - Le nombre est plus petit
-- `"CORRECT"` - Le nombre est trouvé
-- `"INVALID_INPUT"` - Entrée invalide
+#### Hints Sent
+- `"TOO_LOW"` - The number is larger
+- `"TOO_HIGH"` - The number is smaller
+- `"CORRECT"` - The number is found
+- `"INVALID_INPUT"` - Invalid input
 
 #### Limitation
-❌ Peut servir qu'**un seul client à la fois**
+❌ Can only serve **one client at a time**
 
 ---
 
-### 📝 MultiThreadedServer - Serveur Multi-Clients
+### 📝 MultiThreadedServer - Multi-Client Server
 
 #### Description
-Serveur TCP avancé qui accepte **plusieurs clients simultanément** et gère un **leaderboard**.
+Advanced TCP server that accepts **multiple clients simultaneously** and manages a **leaderboard**.
 
-#### Améliorations
-1. **Accepte les connexions en boucle infinie**
+#### Improvements
+1. **Accepts connections in infinite loop**
    ```java
    while (true) {
        Socket socket = serverSocket.accept();
-       new PlayerHandler(socket).start();  // Crée un thread pour chaque client
+       new PlayerHandler(socket).start();  // Creates a thread for each client
    }
    ```
 
@@ -267,48 +267,48 @@ Serveur TCP avancé qui accepte **plusieurs clients simultanément** et gère un
    ```java
    private static final List<String> leaderboard = new CopyOnWriteArrayList<>();
    ```
-   - `CopyOnWriteArrayList`: Collection thread-safe pour éviter les race conditions
+   - `CopyOnWriteArrayList`: Thread-safe collection to avoid race conditions
 
-3. **Classe Interne `PlayerHandler`** (extends `Thread`)
-   - Chaque instance gère un joueur
-   - Communique avec son client via les I/O streams
-   - Enregistre les scores dans le leaderboard
+3. **Inner Class `PlayerHandler`** (extends `Thread`)
+   - Each instance manages a player
+   - Communicates with its client via I/O streams
+   - Records scores in the leaderboard
 
-#### Fonctionnalités
-- Demande le **nom du joueur**
-- Compte les **tentatives**
-- Trie le leaderboard par **tentatives croissantes** (meilleur score = moins de tentatives)
-- Affiche les **Top 5** du leaderboard au joueur
+#### Features
+- Asks for **player name**
+- Counts **attempts**
+- Sorts leaderboard by **ascending attempts** (better score = fewer attempts)
+- Displays **Top 5** of leaderboard to the player
 
-#### Code Clés - Tri du Leaderboard
+#### Key Code - Leaderboard Sorting
 ```java
 leaderboard.sort((a, b) -> {
     int scoreA = Integer.parseInt(a.split(" ")[0]);
     int scoreB = Integer.parseInt(b.split(" ")[0]);
-    return scoreA - scoreB;  // Croissant
+    return scoreA - scoreB;  // Ascending
 });
 ```
 
-#### ✅ Avantage
-✅ Accepte **plusieurs clients simultanément**
-✅ Chaque client a son propre **nombre magique**
-✅ Leaderboard **partagé** et **thread-safe**
+#### ✅ Advantage
+✅ Accepts **multiple clients simultaneously**
+✅ Each client has its own **magic number**
+✅ Leaderboard is **shared** and **thread-safe**
 
 ---
 
-### 📝 GameClient - Client Joueur
+### 📝 GameClient - Player Client
 
 #### Description
-Client TCP qui se connecte au serveur et joue au jeu du nombre magique.
+TCP client that connects to the server and plays the magic number guessing game.
 
-#### Fonctionnement
-1. Se connecte au serveur sur `localhost:1234`
-2. Envoie les estimations au serveur
-3. Reçoit les indices du serveur
-4. Boucle jusqu'à trouver le nombre (réponse = `"CORRECT"`)
-5. Affiche le nombre de tentatives
+#### Operation
+1. Connects to server on `localhost:1234`
+2. Sends guesses to the server
+3. Receives hints from the server
+4. Loops until finding the number (response = `"CORRECT"`)
+5. Displays the number of attempts
 
-#### Code Clés
+#### Key Code
 ```java
 Socket socket = new Socket(hostname, port);
 PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
@@ -317,32 +317,32 @@ Scanner console = new Scanner(System.in);
 
 do {
     String guess = console.nextLine();
-    output.println(guess);  // Envoyer
-    String response = input.readLine();  // Recevoir
+    output.println(guess);  // Send
+    String response = input.readLine();  // Receive
     System.out.println("Server says: " + response);
 } while (!response.equals("CORRECT"));
 ```
 
-#### Flux d'Entrée/Sortie
+#### Input/Output Flow
 ```
 CLIENT                                SERVER
-                 ← Connection Établie ←
-Envoyer "50"     → Recevoir "50"
-                 Vérifier 50 vs nombre
-Recevoir "TOO_LOW" ← Envoyer "TOO_LOW"
+                 ← Connection Established ←
+Send "50"        → Receive "50"
+                 Check 50 vs number
+Receive "TOO_LOW" ← Send "TOO_LOW"
 ```
 
 ---
 
-### 🚀 Comment Exécuter Sc_3
+### 🚀 How to Execute Sc_3
 
-#### Étape 1: Compiler tous les fichiers
+#### Step 1: Compile all files
 ```bash
 cd Sc_3
 javac *.java
 ```
 
-#### Étape 2 (Option A): Utiliser SimpleServer
+#### Step 2 (Option A): Use SimpleServer
 ```
 Terminal 1:
 java SimpleServer
@@ -351,7 +351,7 @@ Terminal 2:
 java GameClient
 ```
 
-#### Étape 2 (Option B): Utiliser MultiThreadedServer
+#### Step 2 (Option B): Use MultiThreadedServer
 ```
 Terminal 1:
 java MultiThreadedServer
@@ -360,10 +360,10 @@ Terminal 2:
 java GameClient
 
 Terminal 3:
-java GameClient  # Deuxième joueur simultané
+java GameClient  # Second player simultaneously
 ```
 
-### 📊 Exemple de Session SimpleServer
+### 📊 Example SimpleServer Session
 ```
 [SERVER]
 Server is listening on port 1234
@@ -384,10 +384,10 @@ Server says: CORRECT
 Congratulations! You found the number in 7 attempts.
 ```
 
-### � Capture d'écran - Sc_3
+### 📸 Screenshot - Sc_3
 ![Sc_3 Game Server & Client Output](./Sc_3/Sc_3.png)
 
-### �📊 Exemple de Session MultiThreadedServer
+### 📊 Example MultiThreadedServer Session
 ```
 [SERVER]
 Multi-threaded Server Started...
@@ -415,78 +415,78 @@ Enter your guess (0-100): 45
 ...
 ```
 
-### 🎓 Concepts Clés Appris
-- **ServerSocket & Socket**: Communication TCP/IP
-- **Stream I/O**: `BufferedReader` et `PrintWriter`
-- **Threading**: Gestion de clients multiples
+### 🎓 Key Concepts Learned
+- **ServerSocket & Socket**: TCP/IP communication
+- **Stream I/O**: `BufferedReader` and `PrintWriter`
+- **Threading**: Managing multiple clients
 - **Thread-Safe Collections**: `CopyOnWriteArrayList`
-- **Client-Server Architecture**: Séparation des responsabilités
-- **Protocol Design**: Messages standardisés (TOO_LOW, TOO_HIGH, CORRECT)
+- **Client-Server Architecture**: Separation of concerns
+- **Protocol Design**: Standardized messages (TOO_LOW, TOO_HIGH, CORRECT)
 
 ---
 
 ## Sc_4: UDP Communication
 
-### 📋 Description Générale
-Cet exercice montre la communication **UDP (User Datagram Protocol)** en Java - un protocole sans connexion et non fiable, contrairement à TCP.
+### 📋 General Description
+This exercise demonstrates **UDP (User Datagram Protocol)** communication in Java - a connectionless and unreliable protocol, unlike TCP.
 
-### 🎯 Objectifs
-- Comprendre la différence entre UDP et TCP
-- Implémenter un **récepteur UDP** (serveur)
-- Implémenter un **émetteur UDP** (client)
-- Apprendre à utiliser `DatagramSocket` et `DatagramPacket`
-- Voir les avantages et inconvénients du UDP
+### 🎯 Objectives
+- Understand the difference between UDP and TCP
+- Implement a **UDP receiver** (server)
+- Implement a **UDP sender** (client)
+- Learn to use `DatagramSocket` and `DatagramPacket`
+- See the advantages and disadvantages of UDP
 
-### 📂 Fichiers
-- `Sc_4/UDPReceiver.java` - Récepteur UDP (serveur)
-- `Sc_4/UDPSender.java` - Émetteur UDP (client)
+### 📂 Files
+- `Sc_4/UDPReceiver.java` - UDP Receiver (server)
+- `Sc_4/UDPSender.java` - UDP Sender (client)
 
 ---
 
-### 📝 UDPReceiver - Récepteur Serveur
+### 📝 UDPReceiver - Server Receiver
 
 #### Description
-Programme qui **écoute** sur un port UDP et affiche tous les messages reçus.
+Program that **listens** on a UDP port and displays all received messages.
 
-#### Fonctionnement
+#### Operation
 ```
-1. Crée un DatagramSocket sur le port 1234
-2. Boucle infinie: écoute les paquets UDP entrants
-3. Affiche l'adresse IP et port de l'émetteur
-4. Affiche le message reçu
-5. Peut s'arrêter avec Ctrl+C ou message "exit"
+1. Creates a DatagramSocket on port 1234
+2. Infinite loop: listens for incoming UDP packets
+3. Displays sender's IP address and port
+4. Displays received message
+5. Can stop with Ctrl+C or "exit" message
 ```
 
-#### Code Détaillé
+#### Detailed Code
 ```java
-DatagramSocket socket = new DatagramSocket(1234);  // Port d'écoute
-byte[] buffer = new byte[1024];  // Buffer pour recevoir les données
+DatagramSocket socket = new DatagramSocket(1234);  // Listening port
+byte[] buffer = new byte[1024];  // Buffer to receive data
 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 
-socket.receive(packet);  // Bloque jusqu'à réception
+socket.receive(packet);  // Blocks until data arrives
 String message = new String(packet.getData(), 0, packet.getLength());
 String sender = packet.getAddress().getHostAddress();
 int senderPort = packet.getPort();
 ```
 
-#### Avantages UDP
-- **Vitesse**: Pas de handshake (TCP en demande 3)
-- **Léger**: Moins d'overhead réseau
-- **Idéal pour**: Streaming audio/vidéo, jeux en temps réel
+#### UDP Advantages
+- **Speed**: No handshake (TCP requires 3)
+- **Lightweight**: Less network overhead
+- **Ideal for**: Audio/video streaming, real-time games
 
-#### Inconvénients UDP
-- **Non fiable**: Les paquets peuvent être perdus
-- **Non ordonné**: Les paquets peuvent arriver dans le désordre
-- **Pas de connexion**: Pas de garantie que le récepteur existe
+#### UDP Disadvantages
+- **Unreliable**: Packets can be lost
+- **Unordered**: Packets can arrive out of order
+- **No connection**: No guarantee receiver exists
 
-### 🚀 Exécuter UDPReceiver
+### 🚀 Execute UDPReceiver
 ```bash
 cd Sc_4
 javac UDPReceiver.java
 java UDPReceiver
 ```
 
-### 📊 Sortie
+### 📊 Output
 ```
 Receiver is listening on port 1234...
 Press Ctrl+C to stop the receiver manually.
@@ -497,65 +497,65 @@ Received from [192.168.1.100:52347]: Message from another computer
 
 ---
 
-### 📝 UDPSender - Émetteur Client
+### 📝 UDPSender - Client Sender
 
 #### Description
-Programme qui envoie des messages UDP à un récepteur spécifié.
+Program that sends UDP messages to a specified receiver.
 
-#### Fonctionnement
+#### Operation
 ```
-1. Demande à l'utilisateur l'adresse IP cible
-2. Crée un DatagramSocket (pas besoin d'accepter de connexions)
-3. Boucle: Lit les messages de l'utilisateur et envoie via UDP
-4. S'arrête si l'utilisateur tape "bye"
+1. Asks user for target IP address
+2. Creates a DatagramSocket (no need to accept connections)
+3. Loop: Reads user messages and sends via UDP
+4. Stops if user types "bye"
 ```
 
-#### Code Détaillé
+#### Detailed Code
 ```java
-DatagramSocket socket = new DatagramSocket();  // Port source aléatoire
+DatagramSocket socket = new DatagramSocket();  // Random source port
 
 System.out.print("Enter target IP address: ");
 String ipInput = scanner.nextLine();
 InetAddress address = InetAddress.getByName(ipInput);
-int port = 1234;  // Port du récepteur
+int port = 1234;  // Receiver's port
 
 byte[] buffer = message.getBytes();
 DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, port);
 socket.send(packet);
 ```
 
-#### Différence avec TCP/Client
+#### Difference from TCP/Client
 ```
 TCP (Sc_3)                          UDP (Sc_4)
-├─ Socket.connect()                ├─ Pas de connexion
-├─ Streams (input/output)           ├─ Paquets datagram
-├─ Fiable et ordonné                ├─ Non fiable, pas d'ordre
-├─ Plus lent (plus de contrôle)     ├─ Plus rapide
-└─ Idéal: Téléchargement, email    └─ Idéal: Chat en temps réel, jeu
+├─ Socket.connect()                ├─ No connection
+├─ Streams (input/output)           ├─ Datagram packets
+├─ Reliable and ordered             ├─ Unreliable, no order
+├─ Slower (more control)            ├─ Faster
+└─ Ideal: Download, email           └─ Ideal: Real-time chat, game
 ```
 
-### 🚀 Comment Exécuter Sc_4
+### 🚀 How to Execute Sc_4
 
-#### Étape 1: Compiler
+#### Step 1: Compile
 ```bash
 cd Sc_4
 javac UDPReceiver.java
 javac UDPSender.java
 ```
 
-#### Étape 2: Lancer les programmes
+#### Step 2: Launch programs
 
-Terminal 1 (Récepteur):
+Terminal 1 (Receiver):
 ```bash
 java UDPReceiver
 ```
 
-Terminal 2 (Émetteur):
+Terminal 2 (Sender):
 ```bash
 java UDPSender
 ```
 
-### 📊 Exemple de Session
+### 📊 Example Session
 ```
 [TERMINAL 1 - UDPReceiver]
 Receiver is listening on port 1234...
@@ -574,49 +574,56 @@ You: exit
 Terminating chat...
 ```
 
-### 📸 Capture d'écran - Sc_4
+### 📸 Screenshot - Sc_4
 ![Sc_4 UDP Communication Output](./Sc_4/Sc_4.png)
 
-### 🎓 Concepts Clés Appris
-- **UDP vs TCP**: Fiabilité vs Vitesse
-- **DatagramSocket**: Socket UDP
-- **DatagramPacket**: Unité de données UDP
-- **Connectionless Protocol**: Pas d'établissement de connexion
-- **Network Addresses**: `InetAddress`, conversions IP/Host
-- **Stateless Communication**: Chaque paquet est indépendant
+### 🎓 Key Concepts Learned
+- **UDP vs TCP**: Reliability vs Speed
+- **DatagramSocket**: UDP socket
+- **DatagramPacket**: UDP data unit
+- **Connectionless Protocol**: No connection establishment
+- **Network Addresses**: `InetAddress`, IP/Host conversions
+- **Stateless Communication**: Each packet is independent
 
 ---
 
-## Résumé Comparatif
+## Comparative Summary
 
 | Aspect | Sc_1 | Sc_2 | Sc_3 | Sc_4 |
 |--------|------|------|------|------|
-| **Concept Principal** | Synchronization | Race Condition | TCP/IP | UDP |
-| **Type** | Multithreading | Multithreading | Réseau | Réseau |
-| **Problème** | Accès concurrent | Surréservation | Connexion unique | Non fiable |
+| **Main Concept** | Synchronization | Race Condition | TCP/IP | UDP |
+| **Type** | Multithreading | Multithreading | Network | Network |
+| **Problem** | Concurrent access | Overbooking | Single connection | Unreliable |
 | **Solution** | `synchronized` | `synchronized` | Threads/Leaderboard | Datagram |
 | **Ports** | N/A | N/A | 1234 | 1234 |
-| **Protocole** | Shared Memory | Shared Memory | TCP Stream | UDP Packet |
+| **Protocol** | Shared Memory | Shared Memory | TCP Stream | UDP Packet |
 
 ---
 
-## 📸 Résumé des Captures d'Écran
+## 📸 Screenshots Summary
 
-Toutes les captures d'écran de chaque exercice sont intégrées dans le document:
-- ✅ **Sc_1**: Sortie de BankSimulation avec synchronisation
-- ✅ **Sc_2**: UnsafeBusReservation montrant la race condition
-- ✅ **Sc_3**: Exécution du serveur et client du jeu du nombre magique
-- ✅ **Sc_4**: Communication UDP (émetteur & récepteur)
+All screenshots for each exercise are integrated in the document:
+- ✅ **Sc_1**: BankSimulation output with synchronization
+- ✅ **Sc_2**: UnsafeBusReservation showing race condition
+- ✅ **Sc_3**: Execution of game server and client
+- ✅ **Sc_4**: UDP communication (sender & receiver)
 
 ---
 
 ## 🎓 Conclusion
 
-Ce TP couvre les concepts fondamentaux de la programmation concurrente et réseau en Java:
-- ✅ Multithreading et synchronisation
-- ✅ Race conditions et deadlocks
-- ✅ Programmation réseau TCP/IP
-- ✅ Programmation réseau UDP
-- ✅ Architecture client-serveur
-- ✅ Collections thread-safe
+This TP covers fundamental concepts of concurrent and network programming in Java:
+- ✅ Multithreading and synchronization
+- ✅ Race conditions and deadlocks
+- ✅ TCP/IP network programming
+- ✅ UDP network programming
+- ✅ Client-server architecture
+- ✅ Thread-safe collections
 
+These concepts are essential for developing robust, scalable, and performant applications.
+
+---
+
+**Author**: TP_4 Student
+**Date**: January 2026
+**Language**: Java
