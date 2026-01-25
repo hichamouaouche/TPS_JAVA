@@ -94,6 +94,9 @@ Client 2 is attempting to withdraw 100
 Client 2 denied. Insufficient funds. Balance: 50
 ```
 
+### 📸 Capture d'écran - Sc_1
+![Sc_1 Bank Simulation Output](./Sc_1/Sc_1.png)
+
 ### 🎓 Concepts Clés Appris
 - **Race Condition**: Quand plusieurs threads accèdent à une ressource partagée sans synchronisation
 - **Critical Section**: Code qui accède à des données partagées
@@ -184,6 +187,9 @@ javac UnsafeBusReservation.java
 ```bash
 java UnsafeBusReservation
 ```
+
+### 📸 Capture d'écran - Sc_2
+![Sc_2 Bus Reservation Output](./Sc_2/Sc_2.png)
 
 ### 🎓 Concepts Clés Appris
 - **Data Race**: Accès non-synchronisé à des données partagées
@@ -378,7 +384,10 @@ Server says: CORRECT
 Congratulations! You found the number in 7 attempts.
 ```
 
-### 📊 Exemple de Session MultiThreadedServer
+### � Capture d'écran - Sc_3
+![Sc_3 Game Server & Client Output](./Sc_3/Sc_3.png)
+
+### �📊 Exemple de Session MultiThreadedServer
 ```
 [SERVER]
 Multi-threaded Server Started...
@@ -565,6 +574,9 @@ You: exit
 Terminating chat...
 ```
 
+### 📸 Capture d'écran - Sc_4
+![Sc_4 UDP Communication Output](./Sc_4/Sc_4.png)
+
 ### 🎓 Concepts Clés Appris
 - **UDP vs TCP**: Fiabilité vs Vitesse
 - **DatagramSocket**: Socket UDP
@@ -588,17 +600,13 @@ Terminating chat...
 
 ---
 
-## 📸 Screenshots
+## 📸 Résumé des Captures d'Écran
 
-Pour ajouter des screenshots des exécutions:
-
-1. **Sc_1 Screenshot**: Afficher la sortie du `BankSimulation.java`
-2. **Sc_2 Screenshot**: Montrer les places négatives (-1)
-3. **Sc_3a Screenshot**: SimpleServer + Client
-4. **Sc_3b Screenshot**: MultiThreadedServer + Clients multiples + Leaderboard
-5. **Sc_4 Screenshot**: UDPReceiver et UDPSender côte à côte
-
-*Les screenshots peuvent être ajoutés manuellement en exécutant les programmes et en captures d'écran les résultats.*
+Toutes les captures d'écran de chaque exercice sont intégrées dans le document:
+- ✅ **Sc_1**: Sortie de BankSimulation avec synchronisation
+- ✅ **Sc_2**: UnsafeBusReservation montrant la race condition
+- ✅ **Sc_3**: Exécution du serveur et client du jeu du nombre magique
+- ✅ **Sc_4**: Communication UDP (émetteur & récepteur)
 
 ---
 
